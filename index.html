@@ -10,7 +10,21 @@
   <title>ChatGPT PWA</title>
 </head>
 <body>
-  <div id="app"></div>
+  <div id="app">
+    <h1>Welcome to ChatGPT PWA!</h1>
+    <p>This is a simple demo app.</p>
+
+    <!-- Textbox and Submit button -->
+    <div class="input-section">
+      <input type="text" id="userPrompt" placeholder="Type your prompt here...">
+      <button id="submitButton" disabled>Submit</button>
+    </div>
+
+    <!-- Display the response -->
+    <div id="responseSection">
+      <p id="responseText"></p>
+    </div>
+  </div>
   <script src="app.js"></script>
 </body>
 </html>
