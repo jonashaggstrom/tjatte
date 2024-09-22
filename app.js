@@ -60,3 +60,64 @@ document.getElementById('settingsForm').addEventListener('submit', function(even
   // Close modal after saving
   settingsModal.style.display = "none";
 });
+
+// DOM elements
+const settingsForm = document.getElementById('settingsForm');
+const githubTokenInput = document.getElementById('githubToken');
+const openAIKeyInput = document.getElementById('openAIKey');
+
+// Function to save settings
+function saveSettings(event) {
+  event.preventDefault();
+  if (isLoggedIn) {
+    sessionStorage.setItem('githubToken', githubTokenInput.value);
+    sessionStorage.setItem('openAIKey', openAIKeyInput.value);
+    alert('Settings saved successfully!');
+    closeSettingsModal();
+  } else {
+    alert('You must be logged in to save settings.');
+  }
+}
+
+// Function to load settings
+function loadSettings() {
+  if (isLoggedIn) {
+    const githubToken = sessionStorage.getItem('githubToken');
+    const openAIKey = sessionStorage.getItem('openAIKey');
+    if (githubToken) githubTokenInput.value = githubToken;
+    if (openAIKey) openAIKeyInput.value = openAIKey;
+  }
+}
+
+// Function to clear settings on logout
+function clearSettings() {
+  sessionStorage.removeItem('githubToken');
+  sessionStorage.removeItem('openAIKey');
+  githubTokenInput.value = '';
+  openAIKeyInput.value = '';
+}
+
+// Modify the login function to load settings after login
+function login(provider) {
+  // Here you would typically implement actual OAuth login
+  console.log(`Logging in with ${provider}...`);
+  isLoggedIn = true;
+  updateUIForLoginState();
+  loadSettings();
+}
+
+// Add a logout function
+function logout() {
+  isLoggedIn = false;
+  clearSettings();
+  updateUIForLoginState();
+}
+
+// Event listeners
+settingsForm.addEventListener('submit', saveSettings);
+
+// Initial UI update and settings load
+updateUIForLoginState();
+if (isLoggedIn) {
+  loadSettings();
+}
