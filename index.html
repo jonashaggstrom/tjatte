@@ -9,22 +9,28 @@
   <title>Tjatte PWA</title>
 </head>
 <body>
-  <!-- Settings Button in the top left -->
-  <button id="settingsButton" class="settings-btn">Settings ⚙️</button>
+  <div class="main-container">
+    <!-- Settings Button in the top left -->
+    <button id="settingsButton" class="settings-btn">Settings ⚙️</button>
 
-  <div id="app">
-    <h1>Welcome to Tjatte!</h1>
-    <p>This is a simple demo app.</p>
+    <!-- Empty space -->
+    <div class="empty-space"></div>
 
-    <!-- Textbox and Submit button -->
-    <div class="input-section">
-      <input type="text" id="userPrompt" placeholder="Type your prompt here...">
-      <button id="submitButton" disabled>Submit</button>
-    </div>
+    <!-- App container on the right -->
+    <div id="app">
+      <h1>Welcome to Tjatte!</h1>
+      <p>This is a simple demo app.</p>
 
-    <!-- Display the response -->
-    <div id="responseSection">
-      <p id="responseText"></p>
+      <!-- Textbox and Submit button -->
+      <div class="input-section">
+        <input type="text" id="userPrompt" placeholder="Type your prompt here...">
+        <button id="submitButton" disabled>Submit</button>
+      </div>
+
+      <!-- Display the response -->
+      <div id="responseSection">
+        <p id="responseText"></p>
+      </div>
     </div>
   </div>
 

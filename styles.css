@@ -1,34 +1,25 @@
 body {
-  font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+.main-container {
+  display: flex;
+  height: 100vh;
+}
+
+.empty-space {
+  width: 75%;
   background-color: #f1f1f1;
 }
 
 #app {
   width: 25%;
-  position: fixed;
-  right: 0;
-  top: 0;
-  bottom: 0;
   background-color: #fff;
   padding: 20px;
   box-shadow: -2px 0 5px rgba(0,0,0,0.1);
   overflow-y: auto;
-}
-
-.chat-container {
-  width: 25%;
-  position: fixed;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  background-color: #fff;
-  padding: 20px;
-  box-shadow: -2px 0 5px rgba(0,0,0,0.1);
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
 }
 
 /* Settings Button */
@@ -36,96 +27,34 @@ body {
   position: fixed;
   top: 20px;
   left: 20px;
-  background-color: #000;
-  color: white;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.settings-btn:hover {
-  background-color: #444;
+  z-index: 1000;
+  // ... resten av befintlig kod ...
 }
 
 .input-section {
-  width: 100%;
   margin-top: 20px;
 }
 
-input[type="text"] {
-  padding: 10px;
-  width: 100%;
-  margin-bottom: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-}
-
-button {
-  background-color: #000;
-  color: white;
-  padding: 10px;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-  width: 100%;
-}
-
-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-button:hover:enabled {
-  background-color: #444;
-}
+// ... resten av befintlig kod ...
 
 #responseSection {
-  width: 100%;
   margin-top: 20px;
   text-align: left;
-  flex-grow: 1;
-  overflow-y: auto;
 }
+
+// ... resten av befintlig kod ...
 
 /* Modal (Settings Menu) */
 .modal {
-  display: none;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0,0,0,0.4);
+  // ... befintlig kod ...
 }
 
 .modal-content {
-  background-color: #f1f1f1;
-  margin: 15% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-  max-width: 500px;
-  border-radius: 10px;
+  // ... befintlig kod ...
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.close:hover, .close:focus {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-input[type="text"], button {
-  display: block;
-  width: 100%;
-  margin-bottom: 15px;
-}
+// ... resten av befintlig kod ...
