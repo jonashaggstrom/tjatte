@@ -114,6 +114,7 @@ function logout() {
   isLoggedIn = false;
   clearSettings();
   updateUIForLoginState();
+  closeSettingsModal(); // Ensure settings modal is closed on logout
 }
 
 // Event listeners
@@ -147,3 +148,44 @@ facebookLoginBtn.addEventListener('click', () => login('Facebook'));
 
 // Initial UI update
 updateUIForLoginState();
+
+// Function to update UI based on login state
+function updateUIForLoginState() {
+  if (isLoggedIn) {
+    loginPrompt.style.display = 'none';
+    app.style.display = 'block';
+    settingsButton.style.display = 'block';
+  } else {
+    loginPrompt.style.display = 'block';
+    app.style.display = 'none';
+    settingsButton.style.display = 'none';
+    settingsModal.style.display = 'none'; // Hide settings modal when logged out
+  }
+}
+
+// Function to open settings modal
+function openSettingsModal() {
+  if (isLoggedIn) {
+    settingsModal.style.display = 'block';
+  } else {
+    alert('You must be logged in to access settings.');
+  }
+}
+
+// Function to close settings modal
+function closeSettingsModal() {
+  settingsModal.style.display = 'none';
+}
+
+// Event listener for settings button
+settingsButton.addEventListener('click', openSettingsModal);
+
+// Event listener for close button in settings modal
+document.querySelector('.close').addEventListener('click', closeSettingsModal);
+
+// Event listener for clicking outside the modal to close it
+window.addEventListener('click', (event) => {
+  if (event.target === settingsModal) {
+    closeSettingsModal();
+  }
+});
