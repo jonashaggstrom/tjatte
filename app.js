@@ -1,5 +1,8 @@
 console.log("App.js is running");
 
+// Simulated user state
+let isLoggedIn = false;
+
 // Get elements
 const userPromptInput = document.getElementById('userPrompt');
 const submitButton = document.getElementById('submitButton');
@@ -121,3 +124,26 @@ updateUIForLoginState();
 if (isLoggedIn) {
   loadSettings();
 }
+
+// Simulated login function
+function login(provider) {
+  // Here you would typically implement actual OAuth login
+  console.log(`Logging in with ${provider}...`);
+  isLoggedIn = true;
+  updateUIForLoginState();
+  loadSettings(); // Assuming you have this function from the previous example
+}
+
+// Simulated logout function
+function logout() {
+  isLoggedIn = false;
+  clearSettings(); // Assuming you have this function from the previous example
+  updateUIForLoginState();
+}
+
+// Event listeners for login buttons
+googleLoginBtn.addEventListener('click', () => login('Google'));
+facebookLoginBtn.addEventListener('click', () => login('Facebook'));
+
+// Initial UI update
+updateUIForLoginState();

@@ -11,13 +11,21 @@
 <body>
   <div class="main-container">
     <!-- Settings Button in the top left -->
-    <button id="settingsButton" class="settings-btn">Settings ⚙️</button>
+    <button id="settingsButton" class="settings-btn" style="display: none;">Settings ⚙️</button>
 
     <!-- Empty space -->
     <div class="empty-space"></div>
 
+    <!-- Login prompt -->
+    <div id="loginPrompt" class="login-prompt">
+      <h2>Welcome to Tjatte</h2>
+      <p>Please log in to continue:</p>
+      <button id="googleLogin" class="social-login-btn">Login with Google</button>
+      <button id="facebookLogin" class="social-login-btn">Login with Facebook</button>
+    </div>
+
     <!-- App container on the right -->
-    <div id="app">
+    <div id="app" style="display: none;">
       <h1>Welcome to Tjatte!</h1>
       <p>This is a simple demo app.</p>
 
