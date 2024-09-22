@@ -6,15 +6,6 @@ body {
 }
 
 #app {
-  max-width: 100%;
-  margin: 0;
-  padding: 20px;
-  background-color: #fff;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.chat-window {
   width: 25%;
   position: fixed;
   right: 0;
@@ -24,6 +15,20 @@ body {
   padding: 20px;
   box-shadow: -2px 0 5px rgba(0,0,0,0.1);
   overflow-y: auto;
+}
+
+.chat-container {
+  width: 25%;
+  position: fixed;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Settings Button */
@@ -79,6 +84,8 @@ button:hover:enabled {
   width: 100%;
   margin-top: 20px;
   text-align: left;
+  flex-grow: 1;
+  overflow-y: auto;
 }
 
 /* Modal (Settings Menu) */
