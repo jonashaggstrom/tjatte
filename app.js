@@ -189,3 +189,90 @@ window.addEventListener('click', (event) => {
     closeSettingsModal();
   }
 });
+
+const loginError = document.getElementById('loginError');
+
+function onSignIn(googleUser) {
+  try {
+    var profile = googleUser.getBasicProfile();
+    console.log('ID: ' + profile.getId());
+    console.log('Name: ' + profile.getName());
+    console.log('Image URL: ' + profile.getImageUrl());
+    console.log('Email: ' + profile.getEmail());
+
+    // Here you would typically send the ID token to your server
+    var id_token = googleUser.getAuthResponse().id_token;
+    
+    // Update your UI
+    isLoggedIn = true;
+    currentUser = {
+      name: profile.getName(),
+      email: profile.getEmail(),
+      provider: 'Google'
+    };
+    updateUIForLoginState();
+    loginError.textContent = ''; // Clear any previous error messages
+  } catch (error) {
+    console.error('Error during Google sign-in:', error);
+    onSignInFailure(error);
+  }
+}
+
+function onSignInFailure(error) {
+  console.error('Google Sign-In failed:', error);
+  isLoggedIn = false;
+  currentUser = null;
+  loginError.textContent = 'Sign-in failed. Please try again.';
+  updateUIForLoginState();
+}
+
+// Facebook login (simulated for this example)
+function facebookLogin() {
+  // Simulate a Facebook login process
+  setTimeout(() => {
+    // Randomly succeed or fail
+    if (Math.random() > 0.5) {
+      isLoggedIn = true;
+      currentUser = {
+        name: 'Facebook User',
+        email: 'facebook@example.com',
+        provider: 'Facebook'
+      };
+      loginError.textContent = ''; // Clear any previous error messages
+      updateUIForLoginState();
+    } else {
+      loginError.textContent = 'Facebook login failed. Please try again.';
+    }
+  }, 1000);
+}
+
+function updateUIForLoginState() {
+  if (isLoggedIn) {
+    loginPrompt.style.display = 'none';
+    app.style.display = 'block';
+    settingsButton.style.display = 'block';
+    userInfoDisplay.textContent = `Logged in as: ${currentUser.name}`;
+    loginError.textContent = ''; // Clear error message on successful login
+  } else {
+    loginPrompt.style.display = 'block';
+    app.style.display = 'none';
+    settingsButton.style.display = 'none';
+    settingsModal.style.display = 'none';
+    userInfoDisplay.textContent = '';
+    // Don't clear error message here, as we want it to persist if login failed
+  }
+}
+
+function signOut() {
+  var auth2 = gapi.auth2.getAuthInstance();
+  auth2.signOut().then(function () {
+    console.log('User signed out.');
+    isLoggedIn = false;
+    currentUser = null;
+    loginError.textContent = ''; // Clear error message on sign out
+    updateUIForLoginState();
+  });
+}
+
+// Event listeners
+document.getElementById('facebookLogin').addEventListener('click', facebookLogin);

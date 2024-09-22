@@ -20,8 +20,9 @@
     <div id="loginPrompt" class="login-prompt">
       <h2>Welcome to Tjatte</h2>
       <p>Please log in to continue:</p>
-      <button id="googleLogin" class="social-login-btn">Login with Google</button>
+      <div class="g-signin2" data-onsuccess="onSignIn" data-onfailure="onSignInFailure"></div>
       <button id="facebookLogin" class="social-login-btn">Login with Facebook</button>
+      <div id="loginError" class="error-message"></div>
     </div>
 
     <!-- App container on the right -->

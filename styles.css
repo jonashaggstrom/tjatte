@@ -77,3 +77,9 @@ body {
   text-decoration: none;
   cursor: pointer;
 }
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+  font-weight: bold;
+}
