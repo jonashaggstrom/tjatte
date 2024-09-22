@@ -14,6 +14,18 @@ body {
   justify-content: flex-end;
 }
 
+.chat-window {
+  width: 25%;
+  position: fixed;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+  overflow-y: auto;
+}
+
 /* Settings Button */
 .settings-btn {
   position: fixed;
@@ -32,7 +44,7 @@ body {
 }
 
 .input-section {
-  width: 300px;
+  width: 100%;
   margin-top: 20px;
 }
 
@@ -64,7 +76,7 @@ button:hover:enabled {
 }
 
 #responseSection {
-  width: 300px;
+  width: 100%;
   margin-top: 20px;
   text-align: left;
 }
