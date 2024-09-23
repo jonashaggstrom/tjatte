@@ -14,10 +14,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Login state manager
     const loginManager = (function() {
-        let isLoggedIn = false;
+        let isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
         return {
             toggle: function() {
                 isLoggedIn = !isLoggedIn;
+                localStorage.setItem('isLoggedIn', isLoggedIn);
                 return isLoggedIn;
             },
             status: function() {
