@@ -1,7 +1,8 @@
 body {
+  font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  font-family: Arial, sans-serif;
+  background-color: #f1f1f1;
 }
 
 .main-container {
@@ -22,26 +23,53 @@ body {
   overflow-y: auto;
 }
 
-/* Settings Button */
 .settings-btn {
   position: fixed;
   top: 20px;
   left: 20px;
   z-index: 1000;
+  background-color: #000;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.settings-btn:hover {
+  background-color: #444;
 }
 
 .input-section {
   margin-top: 20px;
 }
 
+input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+button {
+  background-color: #000;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #444;
+}
 
 #responseSection {
   margin-top: 20px;
-  text-align: left;
 }
 
-
-/* Modal (Settings Menu) */
+/* Modal Styles */
 .modal {
   display: none;
   position: fixed;

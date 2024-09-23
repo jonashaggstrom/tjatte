@@ -175,7 +175,7 @@ function openSettingsModal() {
 // Function to close settings modal
 function closeSettingsModal() {
   settingsModal.style.display = 'none';
-}
+} 
 
 // Event listener for settings button
 settingsButton.addEventListener('click', openSettingsModal);
