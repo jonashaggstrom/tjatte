@@ -21,6 +21,10 @@ body {
   padding: 20px;
   box-shadow: -2px 0 5px rgba(0,0,0,0.1);
   overflow-y: auto;
+  position: fixed;
+  right: 0;
+  top: 0;
+  bottom: 0;
 }
 
 .settings-btn {
@@ -110,4 +114,19 @@ button:hover {
   color: red;
   margin-top: 10px;
   font-weight: bold;
+}
+
+.login-btn {
+  display: block;
+  margin: 20px 0;
+  padding: 10px 20px;
+  background-color: #000;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.login-btn:hover {
+  background-color: #444;
 }
