@@ -40,11 +40,15 @@
       
       <!-- Settings Form -->
       <form id="settingsForm">
-        <label for="githubToken">GitHub Token:</label>
-        <input type="text" id="githubToken" placeholder="Enter GitHub token here...">
+        <label for="openAIKey">OpenAI API Key:</label>
+        <input type="text" id="openAIKey" placeholder="Enter your OpenAI API key">
         
-        <label for="openAIKey">OpenAI Key:</label>
-        <input type="text" id="openAIKey" placeholder="Enter OpenAI Key here...">
+        <label for="modelSelect">ChatGPT Model:</label>
+        <select id="modelSelect">
+          <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+          <option value="gpt-4">GPT-4</option>
+          <option value="gpt-4-32k">GPT-4 32k</option>
+        </select>
         
         <button type="submit">Save</button>
       </form>

@@ -13,6 +13,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const openAIKeyInput = document.getElementById('openAIKey');
     const modelSelect = document.getElementById('modelSelect');
 
+    // Kontrollera att alla element finns
+    if (!settingsModal || !openAIKeyInput || !modelSelect) {
+        console.error('Ett eller flera nödvändiga DOM-element saknas.');
+        return;
+    }
+
     // Login state manager
     const loginManager = (function() {
         let isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
@@ -73,9 +79,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to open settings modal
     function openSettingsModal() {
-        openAIKeyInput.value = settingsManager.getOpenAIKey();
-        modelSelect.value = settingsManager.getModel();
-        settingsModal.style.display = 'block';
+        if (openAIKeyInput && modelSelect) {
+            openAIKeyInput.value = settingsManager.getOpenAIKey();
+            modelSelect.value = settingsManager.getModel();
+            settingsModal.style.display = 'block';
+        } else {
+            console.error('Kunde inte öppna inställningsmodalen: saknade element');
+        }
     }
 
     // Function to close settings modal
