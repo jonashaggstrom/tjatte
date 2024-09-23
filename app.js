@@ -48,6 +48,27 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     })();
 
+    // Function to update UI based on login state
+    function updateUIForLoginState() {
+        const isLoggedIn = loginManager.status();
+        console.log('Updating UI. isLoggedIn:', isLoggedIn);
+        if (loginToggleBtn) loginToggleBtn.textContent = isLoggedIn ? 'Logout' : 'Login';
+        if (settingsButton) settingsButton.style.display = isLoggedIn ? 'block' : 'none';
+        if (inputSection) inputSection.style.display = isLoggedIn ? 'block' : 'none';
+        if (responseSection) responseSection.style.display = isLoggedIn ? 'block' : 'none';
+        if (!isLoggedIn && settingsModal) {
+            settingsModal.style.display = 'none';
+        }
+    }
+
+    // Function to toggle login state
+    function toggleLogin() {
+        console.log('Toggle login called. Current state:', loginManager.status());
+        loginManager.toggle();
+        console.log('New state:', loginManager.status());
+        updateUIForLoginState();
+    }
+
     // Function to call ChatGPT API
     async function callChatGPT(prompt) {
         const apiKey = settingsManager.getOpenAIKey();
@@ -158,6 +179,9 @@ document.addEventListener('DOMContentLoaded', function() {
             closeSettingsModal();
         }
     });
+
+    // Initial UI update
+    updateUIForLoginState();
 
     console.log('Script loaded. All functionality should be operational.');
 });
