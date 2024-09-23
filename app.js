@@ -28,14 +28,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Settings manager
     const settingsManager = (function() {
-        let openAIKey = '';
+        let openAIKey = localStorage.getItem('openAIKey') || '';
         return {
             setOpenAIKey: function(key) {
                 openAIKey = key;
                 localStorage.setItem('openAIKey', key);
             },
             getOpenAIKey: function() {
-                return openAIKey || localStorage.getItem('openAIKey') || '';
+                return openAIKey;
             }
         };
     })();
@@ -70,6 +70,15 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to close settings modal
     function closeSettingsModal() {
         settingsModal.style.display = 'none';
+    }
+
+    // Function to handle settings form submission
+    function handleSettingsSubmit(event) {
+        event.preventDefault(); // Förhindra sidomladdning
+        const openAIKey = openAIKeyInput.value;
+        settingsManager.setOpenAIKey(openAIKey);
+        closeSettingsModal();
+        console.log('Settings saved successfully');
     }
 
     // Function to call ChatGPT API
@@ -134,6 +143,7 @@ document.addEventListener('DOMContentLoaded', function() {
     settingsButton.addEventListener('click', openSettingsModal);
     closeButton.addEventListener('click', closeSettingsModal);
     submitButton.addEventListener('click', handleSubmit);
+    settingsForm.addEventListener('submit', handleSettingsSubmit);
 
     // Event listener for clicking outside the modal to close it
     window.addEventListener('click', (event) => {
