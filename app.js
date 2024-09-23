@@ -11,6 +11,21 @@ document.addEventListener('DOMContentLoaded', function() {
     const responseText = document.getElementById('responseText');
     const settingsForm = document.getElementById('settingsForm');
 
+    // Login state manager
+    const loginManager = (function() {
+        let isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        return {
+            toggle: function() {
+                isLoggedIn = !isLoggedIn;
+                localStorage.setItem('isLoggedIn', isLoggedIn);
+                return isLoggedIn;
+            },
+            status: function() {
+                return isLoggedIn;
+            }
+        };
+    })();
+
     // Settings manager
     const settingsManager = (function() {
         let openAIKey = localStorage.getItem('openAIKey') || '';
