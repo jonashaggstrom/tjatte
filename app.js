@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const responseText = document.getElementById('responseText');
     const settingsForm = document.getElementById('settingsForm');
     const openAIKeyInput = document.getElementById('openAIKey');
+    const modelSelect = document.getElementById('modelSelect');
 
     // Login state manager
     const loginManager = (function() {
@@ -30,6 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Settings manager
     const settingsManager = (function() {
         let openAIKey = localStorage.getItem('openAIKey') || '';
+        let model = localStorage.getItem('chatGPTModel') || 'gpt-3.5-turbo';
         return {
             setOpenAIKey: function(key) {
                 openAIKey = key;
@@ -37,6 +39,13 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             getOpenAIKey: function() {
                 return openAIKey;
+            },
+            setModel: function(selectedModel) {
+                model = selectedModel;
+                localStorage.setItem('chatGPTModel', selectedModel);
+            },
+            getModel: function() {
+                return model;
             }
         };
     })();
@@ -65,6 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to open settings modal
     function openSettingsModal() {
         openAIKeyInput.value = settingsManager.getOpenAIKey();
+        modelSelect.value = settingsManager.getModel();
         settingsModal.style.display = 'block';
     }
 
@@ -77,7 +87,9 @@ document.addEventListener('DOMContentLoaded', function() {
     function handleSettingsSubmit(event) {
         event.preventDefault(); // Förhindra sidomladdning
         const openAIKey = openAIKeyInput.value;
+        const selectedModel = modelSelect.value;
         settingsManager.setOpenAIKey(openAIKey);
+        settingsManager.setModel(selectedModel);
         closeSettingsModal();
         console.log('Settings saved successfully');
     }
@@ -85,12 +97,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to call ChatGPT API
     async function callChatGPT(prompt) {
         const apiKey = settingsManager.getOpenAIKey();
+        const model = settingsManager.getModel();
         if (!apiKey) {
             alert('Please enter your OpenAI API key in the settings.');
             return;
         }
 
         try {
+            await delay(1000); // Vänta 1 sekund mellan anrop
             const response = await fetch('https://api.openai.com/v1/chat/completions', {
                 method: 'POST',
                 headers: {
@@ -98,13 +112,16 @@ document.addEventListener('DOMContentLoaded', function() {
                     'Authorization': `Bearer ${apiKey}`
                 },
                 body: JSON.stringify({
-                    model: "gpt-3.5-turbo",
+                    model: model,
                     messages: [{role: "user", content: prompt}],
                     temperature: 0.7
                 })
             });
 
             if (!response.ok) {
+                if (response.status === 429) {
+                    throw new Error('Rate limit exceeded. Please wait a moment before trying again.');
+                }
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 
@@ -112,7 +129,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return data.choices[0].message.content;
         } catch (error) {
             console.error('Error:', error);
-            return 'An error occurred while calling the ChatGPT API.';
+            return `An error occurred while calling the ChatGPT API: ${error.message}`;
         }
     }
 
