@@ -142,6 +142,18 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (openAIKeyInput && modelSelect) {
             openAIKeyInput.value = settingsManager.getOpenAIKey();
+            
+            // Uppdatera alternativ för modelSelect
+            modelSelect.innerHTML = `
+                <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+                <option value="gpt-3.5-turbo-16k">GPT-3.5 Turbo 16k</option>
+                <option value="gpt-4">GPT-4</option>
+                <option value="gpt-4-32k">GPT-4 32k</option>
+                <option value="gpt-4-1106-preview">GPT-4 Turbo (November 2023)</option>
+                <option value="gpt-4-0125-preview">GPT-4 Turbo (January 2024)</option>
+                <option value="gpt-4-vision-preview">GPT-4 Vision</option>
+            `;
+            
             modelSelect.value = settingsManager.getModel();
         }
         
