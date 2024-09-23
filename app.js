@@ -74,8 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const apiKey = settingsManager.getOpenAIKey();
         const model = settingsManager.getModel();
         if (!apiKey) {
-            alert('Please enter your OpenAI API key in the settings.');
-            return;
+            throw new Error('OpenAI API-nyckel saknas. Vänligen ange den i inställningarna.');
         }
 
         try {
@@ -93,17 +92,20 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
             if (!response.ok) {
-                if (response.status === 429) {
-                    throw new Error('Rate limit exceeded. Please wait a moment before trying again.');
+                if (response.status === 401) {
+                    throw new Error('Ogiltig API-nyckel. Kontrollera din OpenAI API-nyckel i inställningarna.');
+                } else if (response.status === 429) {
+                    throw new Error('För många förfrågningar. Vänta en stund innan du försöker igen.');
+                } else {
+                    throw new Error(`HTTP-fel! status: ${response.status}`);
                 }
-                throw new Error(`HTTP error! status: ${response.status}`);
             }
 
             const data = await response.json();
             return data.choices[0].message.content;
         } catch (error) {
             console.error('Error:', error);
-            return `An error occurred while calling the ChatGPT API: ${error.message}`;
+            throw error; // Kasta felet vidare för hantering i handleSubmit
         }
     }
 
@@ -112,19 +114,22 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Submit button clicked');
         const prompt = userPrompt.value;
         if (!prompt) {
-            alert('Please enter a prompt.');
+            alert('Vänligen ange en fråga.');
             return;
         }
 
         submitButton.disabled = true;
-        responseText.textContent = 'Thinking...';
+        responseText.textContent = 'Tänker...';
 
         try {
             const response = await callChatGPT(prompt);
             responseText.textContent = response;
         } catch (error) {
             console.error('Error in handleSubmit:', error);
-            responseText.textContent = `Error: ${error.message}. Please try again later.`;
+            responseText.textContent = `Fel: ${error.message}`;
+            if (error.message.includes('API-nyckel')) {
+                openSettingsModal(); // Öppna inställningar om API-nyckeln är ogiltig
+            }
         } finally {
             submitButton.disabled = false;
         }
