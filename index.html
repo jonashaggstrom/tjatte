@@ -3,10 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#000000">
-  <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="styles.css">
   <title>Tjatte</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="main-container">
@@ -17,7 +15,7 @@
     <div class="empty-space"></div>
 
     <!-- App container on the right -->
-    <div id="app" style="display: none;">
+    <div id="app">
       <h1>Welcome to Tjatte!</h1>
       <p>This is a simple demo app.</p>
 
@@ -25,20 +23,20 @@
       <button id="loginToggleBtn">Login</button>
 
       <!-- Textbox and Submit button -->
-      <div class="input-section">
+      <div class="input-section" style="display: none;">
         <input type="text" id="userPrompt" placeholder="Type your prompt here...">
-        <button id="submitButton" disabled>Submit</button>
+        <button id="submitButton">Submit</button>
       </div>
 
       <!-- Display the response -->
-      <div id="responseSection">
+      <div id="responseSection" style="display: none;">
         <p id="responseText"></p>
       </div>
     </div>
   </div>
 
   <!-- Modal for Settings -->
-  <div id="settingsModal" class="modal" style="display: none;">
+  <div id="settingsModal" class="modal">
     <div class="modal-content">
       <span class="close">&times;</span>
       <h2>Settings</h2>

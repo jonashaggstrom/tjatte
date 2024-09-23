@@ -218,6 +218,7 @@ function onSignIn(googleUser) {
   }
 }
 
+
 function onSignInFailure(error) {
   console.error('Google Sign-In failed:', error);
   isLoggedIn = false;
