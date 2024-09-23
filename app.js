@@ -108,6 +108,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to handle submit button click
     async function handleSubmit() {
+        console.log('Submit button clicked'); // Lägg till denna rad för felsökning
         const prompt = userPrompt.value;
         if (!prompt) {
             alert('Please enter a prompt.');
@@ -117,10 +118,15 @@ document.addEventListener('DOMContentLoaded', function() {
         submitButton.disabled = true;
         responseText.textContent = 'Thinking...';
 
-        const response = await callChatGPT(prompt);
-        responseText.textContent = response;
-
-        submitButton.disabled = false;
+        try {
+            const response = await callChatGPT(prompt);
+            responseText.textContent = response;
+        } catch (error) {
+            console.error('Error in handleSubmit:', error);
+            responseText.textContent = 'An error occurred while processing your request.';
+        } finally {
+            submitButton.disabled = false;
+        }
     }
 
     // Event listeners
@@ -141,4 +147,5 @@ document.addEventListener('DOMContentLoaded', function() {
     updateUIForLoginState();
 
     console.log('Script loaded. Login button should be visible and functional.');
+    console.log('All event listeners have been set up.');
 });
