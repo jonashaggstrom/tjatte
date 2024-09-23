@@ -167,7 +167,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Event listeners
-    if (loginToggleBtn) loginToggleBtn.addEventListener('click', toggleLogin);
+    if (loginToggleBtn) {
+        loginToggleBtn.addEventListener('click', function() {
+            toggleLogin();
+        });
+    }
     if (settingsButton) settingsButton.addEventListener('click', openSettingsModal);
     if (closeButton) closeButton.addEventListener('click', closeSettingsModal);
     if (submitButton) submitButton.addEventListener('click', handleSubmit);
