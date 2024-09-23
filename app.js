@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const userPrompt = document.getElementById('userPrompt');
     const submitButton = document.getElementById('submitButton');
     const responseText = document.getElementById('responseText');
+    const settingsForm = document.getElementById('settingsForm');
+    const openAIKeyInput = document.getElementById('openAIKey');
 
     // Login state manager
     const loginManager = (function() {
@@ -20,6 +22,20 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             status: function() {
                 return isLoggedIn;
+            }
+        };
+    })();
+
+    // Settings manager
+    const settingsManager = (function() {
+        let openAIKey = '';
+        return {
+            setOpenAIKey: function(key) {
+                openAIKey = key;
+                localStorage.setItem('openAIKey', key);
+            },
+            getOpenAIKey: function() {
+                return openAIKey || localStorage.getItem('openAIKey') || '';
             }
         };
     })();
@@ -47,6 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to open settings modal
     function openSettingsModal() {
+        openAIKeyInput.value = settingsManager.getOpenAIKey();
         settingsModal.style.display = 'block';
     }
 
@@ -57,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to call ChatGPT API
     async function callChatGPT(prompt) {
-        const apiKey = document.getElementById('openAIKey').value;
+        const apiKey = settingsManager.getOpenAIKey();
         if (!apiKey) {
             alert('Please enter your OpenAI API key in the settings.');
             return;
