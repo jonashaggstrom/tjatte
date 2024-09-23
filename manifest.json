@@ -1,7 +1,7 @@
 
 {
   "name": "ChatGPT PWA",
-  "short_name": "ChatGPT",
+  "short_name": "Tjatte",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

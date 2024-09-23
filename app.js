@@ -1,8 +1,14 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // DOM elements that we use frequently
+    // DOM elements
+    const loginToggleBtn = document.getElementById('loginToggleBtn');
     const settingsButton = document.getElementById('settingsButton');
     const settingsModal = document.getElementById('settingsModal');
     const closeButton = document.querySelector('.close');
+    const inputSection = document.querySelector('.input-section');
+    const responseSection = document.getElementById('responseSection');
+    const userPrompt = document.getElementById('userPrompt');
+    const submitButton = document.getElementById('submitButton');
+    const responseText = document.getElementById('responseText');
     const settingsForm = document.getElementById('settingsForm');
 
     // Settings manager
@@ -27,23 +33,79 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     })();
 
+    // Function to call ChatGPT API
+    async function callChatGPT(prompt) {
+        const apiKey = settingsManager.getOpenAIKey();
+        const model = settingsManager.getModel();
+        if (!apiKey) {
+            alert('Please enter your OpenAI API key in the settings.');
+            return;
+        }
+
+        try {
+            const response = await fetch('https://api.openai.com/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKey}`
+                },
+                body: JSON.stringify({
+                    model: model,
+                    messages: [{role: "user", content: prompt}],
+                    temperature: 0.7
+                })
+            });
+
+            if (!response.ok) {
+                if (response.status === 429) {
+                    throw new Error('Rate limit exceeded. Please wait a moment before trying again.');
+                }
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            return data.choices[0].message.content;
+        } catch (error) {
+            console.error('Error:', error);
+            return `An error occurred while calling the ChatGPT API: ${error.message}`;
+        }
+    }
+
+    // Function to handle submit button click
+    async function handleSubmit() {
+        console.log('Submit button clicked');
+        const prompt = userPrompt.value;
+        if (!prompt) {
+            alert('Please enter a prompt.');
+            return;
+        }
+
+        submitButton.disabled = true;
+        responseText.textContent = 'Thinking...';
+
+        try {
+            const response = await callChatGPT(prompt);
+            responseText.textContent = response;
+        } catch (error) {
+            console.error('Error in handleSubmit:', error);
+            responseText.textContent = `Error: ${error.message}. Please try again later.`;
+        } finally {
+            submitButton.disabled = false;
+        }
+    }
+
     // Function to open settings modal
     function openSettingsModal() {
         const openAIKeyInput = document.getElementById('openAIKey');
         const modelSelect = document.getElementById('modelSelect');
         
-        if (!openAIKeyInput || !modelSelect) {
-            console.error('Kunde inte hitta nödvändiga inställningselement');
-            return;
+        if (openAIKeyInput && modelSelect) {
+            openAIKeyInput.value = settingsManager.getOpenAIKey();
+            modelSelect.value = settingsManager.getModel();
         }
-        
-        openAIKeyInput.value = settingsManager.getOpenAIKey();
-        modelSelect.value = settingsManager.getModel();
         
         if (settingsModal) {
             settingsModal.style.display = 'block';
-        } else {
-            console.error('Kunde inte hitta settingsModal');
         }
     }
 
@@ -60,37 +122,20 @@ document.addEventListener('DOMContentLoaded', function() {
         const openAIKeyInput = document.getElementById('openAIKey');
         const modelSelect = document.getElementById('modelSelect');
         
-        if (!openAIKeyInput || !modelSelect) {
-            console.error('Kunde inte hitta nödvändiga inställningselement vid sparande');
-            return;
+        if (openAIKeyInput && modelSelect) {
+            settingsManager.setOpenAIKey(openAIKeyInput.value);
+            settingsManager.setModel(modelSelect.value);
+            closeSettingsModal();
+            console.log('Settings saved successfully');
         }
-        
-        const openAIKey = openAIKeyInput.value;
-        const selectedModel = modelSelect.value;
-        settingsManager.setOpenAIKey(openAIKey);
-        settingsManager.setModel(selectedModel);
-        closeSettingsModal();
-        console.log('Settings saved successfully');
     }
 
     // Event listeners
-    if (settingsButton) {
-        settingsButton.addEventListener('click', openSettingsModal);
-    } else {
-        console.error('Kunde inte hitta settingsButton');
-    }
-
-    if (closeButton) {
-        closeButton.addEventListener('click', closeSettingsModal);
-    } else {
-        console.error('Kunde inte hitta closeButton');
-    }
-
-    if (settingsForm) {
-        settingsForm.addEventListener('submit', handleSettingsSubmit);
-    } else {
-        console.error('Kunde inte hitta settingsForm');
-    }
+    if (loginToggleBtn) loginToggleBtn.addEventListener('click', toggleLogin);
+    if (settingsButton) settingsButton.addEventListener('click', openSettingsModal);
+    if (closeButton) closeButton.addEventListener('click', closeSettingsModal);
+    if (submitButton) submitButton.addEventListener('click', handleSubmit);
+    if (settingsForm) settingsForm.addEventListener('submit', handleSettingsSubmit);
 
     // Event listener for clicking outside the modal to close it
     window.addEventListener('click', (event) => {
@@ -99,5 +144,5 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    console.log('Script loaded. Settings functionality should be operational.');
+    console.log('Script loaded. All functionality should be operational.');
 });
